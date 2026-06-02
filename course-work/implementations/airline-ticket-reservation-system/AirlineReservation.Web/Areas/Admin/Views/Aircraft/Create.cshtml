@@ -1,0 +1,12 @@
+@model AircraftCreateRequest
+
+@{
+    ViewData["Title"] = "Create Aircraft";
+}
+
+<h1 class="h3 mb-3">Create aircraft</h1>
+<partial name="_AircraftForm" model="Model" />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,31 @@
+@model AdminFlightDetailsViewModel
+
+@{
+    ViewData["Title"] = "Flight Details";
+}
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+        <p class="text-uppercase text-secondary fw-semibold mb-2">Flight</p>
+        <h1 class="h3">@Model.Flight.FlightNumber</h1>
+        <dl class="row">
+            <dt class="col-sm-3">Route</dt><dd class="col-sm-9">@Model.DepartureAirport?.Code - @Model.DepartureAirport?.City -> @Model.ArrivalAirport?.Code - @Model.ArrivalAirport?.City</dd>
+            <dt class="col-sm-3">Aircraft</dt><dd class="col-sm-9">@Model.Aircraft?.RegistrationNumber (@Model.Aircraft?.Model)</dd>
+            <dt class="col-sm-3">Departure</dt><dd class="col-sm-9">@Model.Flight.DepartureTime.ToLocalTime().ToString("dd MMM yyyy HH:mm")</dd>
+            <dt class="col-sm-3">Arrival</dt><dd class="col-sm-9">@Model.Flight.ArrivalTime.ToLocalTime().ToString("dd MMM yyyy HH:mm")</dd>
+            <dt class="col-sm-3">Base price</dt><dd class="col-sm-9">@Model.Flight.BasePrice.ToString("0.00") @Model.Flight.Currency</dd>
+            <dt class="col-sm-3">Status</dt><dd class="col-sm-9">@Model.Flight.Status</dd>
+            <dt class="col-sm-3">Available seats</dt><dd class="col-sm-9">@Model.Flight.AvailableSeats</dd>
+        </dl>
+        <div class="d-flex gap-2">
+            <a asp-action="Edit" asp-route-id="@Model.Flight.Id" class="btn btn-primary">Edit</a>
+            <a asp-action="Index" class="btn btn-outline-secondary">Back</a>
+            <form asp-action="Delete" asp-route-id="@Model.Flight.Id" method="post">
+                <button class="btn btn-outline-danger" onclick="return confirm('Delete this flight?')">Delete</button>
+            </form>
+            <form asp-action="ForceDelete" asp-route-id="@Model.Flight.Id" method="post">
+                <button class="btn btn-danger" onclick="return confirm('Force delete this flight and all related reservations, tickets, and payments? This cannot be undone.')">Force delete</button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,64 @@
+@model AdminFlightFormViewModel
+
+<form method="post" class="card border-0 shadow-sm">
+    <div class="card-body">
+        <input type="hidden" asp-for="Id" />
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+        <div class="row g-3">
+            <div class="col-md-3"><label asp-for="Flight.FlightNumber" class="form-label"></label><input asp-for="Flight.FlightNumber" class="form-control" /><span asp-validation-for="Flight.FlightNumber" class="text-danger"></span></div>
+            <div class="col-md-3">
+                <label asp-for="Flight.DepartureAirportId" class="form-label"></label>
+                <select asp-for="Flight.DepartureAirportId" class="form-select">
+                    <option value="">Select airport</option>
+                    @foreach (var airport in Model.Airports)
+                    {
+                        <option value="@airport.Id">@airport.Code - @airport.City</option>
+                    }
+                </select>
+                <span asp-validation-for="Flight.DepartureAirportId" class="text-danger"></span>
+            </div>
+            <div class="col-md-3">
+                <label asp-for="Flight.ArrivalAirportId" class="form-label"></label>
+                <select asp-for="Flight.ArrivalAirportId" class="form-select">
+                    <option value="">Select airport</option>
+                    @foreach (var airport in Model.Airports)
+                    {
+                        <option value="@airport.Id">@airport.Code - @airport.City</option>
+                    }
+                </select>
+                <span asp-validation-for="Flight.ArrivalAirportId" class="text-danger"></span>
+            </div>
+            <div class="col-md-3">
+                <label asp-for="Flight.AircraftId" class="form-label"></label>
+                <select asp-for="Flight.AircraftId" class="form-select">
+                    <option value="">Select aircraft</option>
+                    @foreach (var aircraft in Model.Aircraft)
+                    {
+                        <option value="@aircraft.Id">@aircraft.RegistrationNumber - @aircraft.Model</option>
+                    }
+                </select>
+                <span asp-validation-for="Flight.AircraftId" class="text-danger"></span>
+            </div>
+            <div class="col-md-3"><label asp-for="Flight.DepartureTime" class="form-label"></label><input asp-for="Flight.DepartureTime" type="datetime-local" class="form-control" /><span asp-validation-for="Flight.DepartureTime" class="text-danger"></span></div>
+            <div class="col-md-3"><label asp-for="Flight.ArrivalTime" class="form-label"></label><input asp-for="Flight.ArrivalTime" type="datetime-local" class="form-control" /><span asp-validation-for="Flight.ArrivalTime" class="text-danger"></span></div>
+            <div class="col-md-2"><label asp-for="Flight.BasePrice" class="form-label"></label><input asp-for="Flight.BasePrice" class="form-control" /><span asp-validation-for="Flight.BasePrice" class="text-danger"></span></div>
+            <div class="col-md-2"><label asp-for="Flight.Currency" class="form-label"></label><input asp-for="Flight.Currency" class="form-control" /><span asp-validation-for="Flight.Currency" class="text-danger"></span></div>
+            <div class="col-md-2">
+                <label asp-for="Flight.Status" class="form-label"></label>
+                <select asp-for="Flight.Status" class="form-select">
+                    <option>Scheduled</option>
+                    <option>Boarding</option>
+                    <option>Departed</option>
+                    <option>Arrived</option>
+                    <option>Delayed</option>
+                    <option>Cancelled</option>
+                </select>
+                <span asp-validation-for="Flight.Status" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="mt-4">
+            <button class="btn btn-primary">Save</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,12 @@
+@model AirportCreateRequest
+
+@{
+    ViewData["Title"] = "Create Airport";
+}
+
+<h1 class="h3 mb-3">Create airport</h1>
+<partial name="_AirportForm" model="Model" />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

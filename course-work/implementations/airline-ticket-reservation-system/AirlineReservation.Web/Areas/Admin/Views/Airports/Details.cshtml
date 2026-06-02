@@ -1,0 +1,29 @@
+@model AirportResponse
+
+@{
+    ViewData["Title"] = "Airport Details";
+}
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+        <p class="text-uppercase text-secondary fw-semibold mb-2">Airport</p>
+        <h1 class="h3">@Model.Code - @Model.Name</h1>
+        <dl class="row">
+            <dt class="col-sm-3">City</dt><dd class="col-sm-9">@Model.City</dd>
+            <dt class="col-sm-3">Country</dt><dd class="col-sm-9">@Model.Country</dd>
+            <dt class="col-sm-3">Timezone</dt><dd class="col-sm-9">@Model.Timezone</dd>
+            <dt class="col-sm-3">Active</dt><dd class="col-sm-9">@(Model.IsActive ? "Yes" : "No")</dd>
+            <dt class="col-sm-3">Created</dt><dd class="col-sm-9">@Model.CreatedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm")</dd>
+        </dl>
+        <div class="d-flex gap-2">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+            <a asp-action="Index" class="btn btn-outline-secondary">Back</a>
+            <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+                <button class="btn btn-outline-danger" onclick="return confirm('Delete this airport?')">Delete</button>
+            </form>
+            <form asp-action="ForceDelete" asp-route-id="@Model.Id" method="post">
+                <button class="btn btn-danger" onclick="return confirm('Force delete this airport, its flights, and all related reservations, tickets, and payments? This cannot be undone.')">Force delete</button>
+            </form>
+        </div>
+    </div>
+</div>

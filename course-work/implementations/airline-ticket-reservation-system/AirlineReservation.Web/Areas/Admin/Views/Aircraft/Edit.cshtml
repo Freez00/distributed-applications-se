@@ -1,0 +1,12 @@
+@model AircraftUpdateRequest
+
+@{
+    ViewData["Title"] = "Edit Aircraft";
+}
+
+<h1 class="h3 mb-3">Edit aircraft</h1>
+<partial name="_AircraftForm" model="Model" />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

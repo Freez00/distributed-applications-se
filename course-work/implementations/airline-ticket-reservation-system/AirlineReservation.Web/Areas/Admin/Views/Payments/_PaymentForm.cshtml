@@ -1,0 +1,49 @@
+@model AdminPaymentFormViewModel
+
+<form method="post" class="card border-0 shadow-sm">
+    <div class="card-body">
+        <input type="hidden" asp-for="Id" />
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label asp-for="Payment.ReservationId" class="form-label">Reservation</label>
+                <select asp-for="Payment.ReservationId" class="form-select">
+                    <option value="">Select reservation</option>
+                    @foreach (var reservation in Model.Reservations)
+                    {
+                        <option value="@reservation.Id">@reservation.ReservationCode - @reservation.TotalPrice.ToString("0.00") @reservation.Currency (@reservation.Status)</option>
+                    }
+                </select>
+                <span asp-validation-for="Payment.ReservationId" class="text-danger"></span>
+            </div>
+            <div class="col-md-3"><label asp-for="Payment.Amount" class="form-label"></label><input asp-for="Payment.Amount" class="form-control" /><span asp-validation-for="Payment.Amount" class="text-danger"></span></div>
+            <div class="col-md-2"><label asp-for="Payment.Currency" class="form-label"></label><input asp-for="Payment.Currency" class="form-control" /><span asp-validation-for="Payment.Currency" class="text-danger"></span></div>
+            <div class="col-md-3">
+                <label asp-for="Payment.PaymentMethod" class="form-label"></label>
+                <select asp-for="Payment.PaymentMethod" class="form-select">
+                    <option>Card</option>
+                    <option>BankTransfer</option>
+                    <option>Cash</option>
+                </select>
+                <span asp-validation-for="Payment.PaymentMethod" class="text-danger"></span>
+            </div>
+            <div class="col-md-3">
+                <label asp-for="Payment.PaymentStatus" class="form-label"></label>
+                <select asp-for="Payment.PaymentStatus" class="form-select">
+                    <option>Pending</option>
+                    <option>Completed</option>
+                    <option>Failed</option>
+                    <option>Refunded</option>
+                </select>
+                <span asp-validation-for="Payment.PaymentStatus" class="text-danger"></span>
+            </div>
+            <div class="col-md-5"><label asp-for="Payment.TransactionReference" class="form-label"></label><input asp-for="Payment.TransactionReference" class="form-control" /><span asp-validation-for="Payment.TransactionReference" class="text-danger"></span></div>
+            <div class="col-md-4"><label asp-for="Payment.PaidAt" class="form-label"></label><input asp-for="Payment.PaidAt" type="datetime-local" class="form-control" /><span asp-validation-for="Payment.PaidAt" class="text-danger"></span></div>
+        </div>
+        <p class="text-muted small mt-3 mb-0">Payment amount and currency must match the reservation total; the API enforces this rule.</p>
+        <div class="mt-4">
+            <button class="btn btn-primary">Save</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+    </div>
+</form>

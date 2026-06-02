@@ -1,0 +1,66 @@
+@model CreatePaymentViewModel
+
+@{
+    ViewData["Title"] = "Record Payment";
+}
+
+<div class="row justify-content-center py-4">
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <p class="text-uppercase text-secondary fw-semibold mb-2">Payment</p>
+                <h1 class="h3 mb-3">Record payment</h1>
+
+                @if (Model.Reservation is not null)
+                {
+                    <div class="alert alert-light border">
+                        Reservation <strong>@Model.Reservation.ReservationCode</strong>,
+                        total <strong>@Model.Reservation.TotalPrice.ToString("0.00") @Model.Reservation.Currency</strong>.
+                    </div>
+                }
+
+                <form asp-action="Create" method="post">
+                    <input type="hidden" asp-for="ReservationId" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <label asp-for="Amount" class="form-label"></label>
+                            <input asp-for="Amount" class="form-control" readonly />
+                            <div class="form-text">Payments must match the reservation total.</div>
+                            <span asp-validation-for="Amount" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Currency" class="form-label"></label>
+                            <input asp-for="Currency" class="form-control" readonly />
+                            <span asp-validation-for="Currency" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12">
+                            <label asp-for="PaymentMethod" class="form-label"></label>
+                            <select asp-for="PaymentMethod" class="form-select">
+                                <option>Card</option>
+                                <option>BankTransfer</option>
+                                <option>Cash</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="TransactionReference" class="form-label"></label>
+                            <input asp-for="TransactionReference" class="form-control" />
+                            <span asp-validation-for="TransactionReference" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <p class="text-muted small mt-3 mb-0">Customer payments are recorded as completed payments and confirm the reservation automatically.</p>
+
+                    <div class="d-flex gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary">Save payment</button>
+                        <a asp-controller="Reservations" asp-action="Details" asp-route-id="@Model.ReservationId" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,12 @@
+@model AdminFlightFormViewModel
+
+@{
+    ViewData["Title"] = "Create Flight";
+}
+
+<h1 class="h3 mb-3">Create flight</h1>
+<partial name="_FlightForm" model="Model" />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,12 @@
+@model AdminPaymentFormViewModel
+
+@{
+    ViewData["Title"] = "Edit Payment";
+}
+
+<h1 class="h3 mb-3">Edit payment</h1>
+<partial name="_PaymentForm" model="Model" />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

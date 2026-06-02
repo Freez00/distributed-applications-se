@@ -1,0 +1,36 @@
+@model AdminDashboardViewModel
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<section class="page-hero rounded-4 p-4 p-lg-5 mb-4">
+    <p class="text-uppercase text-secondary fw-semibold mb-2">Administration</p>
+    <h1 class="display-6 fw-bold mb-2">System control center</h1>
+    <p class="lead text-muted mb-0">Manage database models through the MVC frontend while the API keeps business rules centralized.</p>
+</section>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3"><div class="feature-card"><span class="text-muted">Users</span><h2>@Model.UsersCount</h2></div></div>
+    <div class="col-md-3"><div class="feature-card"><span class="text-muted">Airports</span><h2>@Model.AirportsCount</h2></div></div>
+    <div class="col-md-3"><div class="feature-card"><span class="text-muted">Aircraft</span><h2>@Model.AircraftCount</h2></div></div>
+    <div class="col-md-3"><div class="feature-card"><span class="text-muted">Flights</span><h2>@Model.FlightsCount</h2></div></div>
+    <div class="col-md-3"><div class="feature-card"><span class="text-muted">Reservations</span><h2>@Model.ReservationsCount</h2></div></div>
+    <div class="col-md-3"><div class="feature-card"><span class="text-muted">Tickets</span><h2>@Model.TicketsCount</h2></div></div>
+    <div class="col-md-3"><div class="feature-card"><span class="text-muted">Payments</span><h2>@Model.PaymentsCount</h2></div></div>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+        <h2 class="h5">Admin modules</h2>
+        <div class="d-flex flex-wrap gap-2">
+            <a asp-area="Admin" asp-controller="Users" asp-action="Index" class="btn btn-outline-primary">Users</a>
+            <a asp-area="Admin" asp-controller="Airports" asp-action="Index" class="btn btn-outline-primary">Airports</a>
+            <a asp-area="Admin" asp-controller="Aircraft" asp-action="Index" class="btn btn-outline-primary">Aircraft</a>
+            <a asp-area="Admin" asp-controller="Flights" asp-action="Index" class="btn btn-outline-primary">Flights</a>
+            <a asp-area="Admin" asp-controller="Reservations" asp-action="Index" class="btn btn-outline-secondary">Reservations</a>
+            <a asp-area="Admin" asp-controller="Tickets" asp-action="Index" class="btn btn-outline-secondary">Tickets</a>
+            <a asp-area="Admin" asp-controller="Payments" asp-action="Index" class="btn btn-outline-secondary">Payments</a>
+        </div>
+    </div>
+</div>

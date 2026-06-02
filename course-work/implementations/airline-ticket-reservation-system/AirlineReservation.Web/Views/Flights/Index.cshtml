@@ -1,0 +1,144 @@
+@model FlightSearchViewModel
+
+@{
+    ViewData["Title"] = "Flights";
+}
+
+<section class="page-hero rounded-4 p-4 p-lg-5 mb-4">
+    <div class="row align-items-center g-4">
+        <div class="col-lg-8">
+            <p class="text-uppercase text-secondary fw-semibold mb-2">Flight search</p>
+            <h1 class="display-6 fw-bold mb-2">Find available flights</h1>
+            <p class="lead text-muted mb-0">Filter by route, date, status, and price. Available seats are calculated by the API.</p>
+        </div>
+        <div class="col-lg-4 text-lg-end">
+            <a asp-controller="Reservations" asp-action="Index" class="btn btn-outline-primary">My reservations</a>
+        </div>
+    </div>
+</section>
+
+<form method="get" class="card border-0 shadow-sm mb-4">
+    <div class="card-body">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+        <div class="row g-3 align-items-end">
+            <div class="col-md-3">
+                <label asp-for="DepartureAirportId" class="form-label"></label>
+                <select asp-for="DepartureAirportId" class="form-select">
+                    <option value="">Any airport</option>
+                    @foreach (var airport in Model.Airports)
+                    {
+                        <option value="@airport.Id">@airport.Code - @airport.City</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label asp-for="ArrivalAirportId" class="form-label"></label>
+                <select asp-for="ArrivalAirportId" class="form-select">
+                    <option value="">Any airport</option>
+                    @foreach (var airport in Model.Airports)
+                    {
+                        <option value="@airport.Id">@airport.Code - @airport.City</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label asp-for="DepartureDate" class="form-label"></label>
+                <input asp-for="DepartureDate" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="Status" class="form-label"></label>
+                <select asp-for="Status" class="form-select">
+                    <option value="">Any status</option>
+                    <option>Scheduled</option>
+                    <option>Boarding</option>
+                    <option>Delayed</option>
+                    <option>Departed</option>
+                    <option>Arrived</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Search</button>
+            </div>
+            <div class="col-md-2">
+                <label asp-for="FlightNumber" class="form-label"></label>
+                <input asp-for="FlightNumber" class="form-control" placeholder="FB973" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="MinPrice" class="form-label"></label>
+                <input asp-for="MinPrice" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="MaxPrice" class="form-label"></label>
+                <input asp-for="MaxPrice" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="SortBy" class="form-label">Sort by</label>
+                <select asp-for="SortBy" class="form-select">
+                    <option value="departureTime">Departure</option>
+                    <option value="basePrice">Price</option>
+                    <option value="flightNumber">Flight number</option>
+                    <option value="status">Status</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label asp-for="SortDirection" class="form-label">Direction</label>
+                <select asp-for="SortDirection" class="form-select">
+                    <option value="asc">Ascending</option>
+                    <option value="desc">Descending</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</form>
+
+@if (Model.Results is null)
+{
+    <div class="alert alert-info">Use the filters above to load flights.</div>
+}
+else if (!Model.Results.Items.Any())
+{
+    <div class="alert alert-warning">No flights match the selected filters.</div>
+}
+else
+{
+    <div class="card border-0 shadow-sm">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Flight</th>
+                        <th>Route</th>
+                        <th>Departure</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                        <th>Seats</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var flight in Model.Results.Items)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@flight.FlightNumber</td>
+                            <td>@Model.AirportLabel(flight.DepartureAirportId) -> @Model.AirportLabel(flight.ArrivalAirportId)</td>
+                            <td>@flight.DepartureTime.ToLocalTime().ToString("dd MMM yyyy HH:mm")</td>
+                            <td>@flight.BasePrice.ToString("0.00") @flight.Currency</td>
+                            <td><span class="badge bg-secondary">@flight.Status</span></td>
+                            <td>@flight.AvailableSeats</td>
+                            <td class="text-end">
+                                @if (flight.AvailableSeats > 0 && flight.Status is not "Cancelled" and not "Arrived")
+                                {
+                                    <a asp-controller="Reservations" asp-action="Create" asp-route-flightId="@flight.Id" class="btn btn-sm btn-primary">Book</a>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Unavailable</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

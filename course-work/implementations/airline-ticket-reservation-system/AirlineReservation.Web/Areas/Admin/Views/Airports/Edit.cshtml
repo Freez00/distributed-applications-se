@@ -1,0 +1,12 @@
+@model AirportUpdateRequest
+
+@{
+    ViewData["Title"] = "Edit Airport";
+}
+
+<h1 class="h3 mb-3">Edit airport</h1>
+<partial name="_AirportForm" model="Model" />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

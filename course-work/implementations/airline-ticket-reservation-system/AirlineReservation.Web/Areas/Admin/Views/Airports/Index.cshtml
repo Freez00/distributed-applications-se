@@ -1,0 +1,51 @@
+@model PagedResult<AirportResponse>
+
+@{
+    ViewData["Title"] = "Admin Airports";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Airports</h1>
+    <a asp-action="Create" class="btn btn-primary">Create airport</a>
+</div>
+
+@if (TempData["Success"] is string success) { <div class="alert alert-success">@success</div> }
+@if (TempData["Error"] is string error) { <div class="alert alert-danger">@error</div> }
+
+<form method="get" class="card border-0 shadow-sm mb-3">
+    <div class="card-body row g-3 align-items-end">
+        <div class="col-md-2"><label class="form-label">Code</label><input name="code" value="@ViewBag.Code" class="form-control" /></div>
+        <div class="col-md-3"><label class="form-label">City</label><input name="city" value="@ViewBag.City" class="form-control" /></div>
+        <div class="col-md-3"><label class="form-label">Country</label><input name="country" value="@ViewBag.Country" class="form-control" /></div>
+        <div class="col-md-2"><label class="form-label">Active</label><select name="isActive" class="form-select"><option value="">All</option><option value="true">Active</option><option value="false">Inactive</option></select></div>
+        <div class="col-md-2"><button class="btn btn-outline-primary w-100">Filter</button></div>
+    </div>
+</form>
+
+<div class="card border-0 shadow-sm">
+    <div class="table-responsive">
+        <table class="table align-middle mb-0">
+            <thead><tr><th>Code</th><th>Name</th><th>City</th><th>Country</th><th>Timezone</th><th>Active</th><th></th></tr></thead>
+            <tbody>
+                @foreach (var airport in Model.Items)
+                {
+                    <tr>
+                        <td class="fw-semibold">@airport.Code</td>
+                        <td>@airport.Name</td>
+                        <td>@airport.City</td>
+                        <td>@airport.Country</td>
+                        <td>@airport.Timezone</td>
+                        <td>@(airport.IsActive ? "Yes" : "No")</td>
+                        <td class="text-end">
+                            <a asp-action="Details" asp-route-id="@airport.Id" class="btn btn-sm btn-outline-secondary">Details</a>
+                            <a asp-action="Edit" asp-route-id="@airport.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                            <form asp-action="Delete" asp-route-id="@airport.Id" method="post" class="d-inline">
+                                <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this airport?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

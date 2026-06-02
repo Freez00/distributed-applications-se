@@ -1,0 +1,73 @@
+@model ReservationListViewModel
+
+@{
+    ViewData["Title"] = "My Reservations";
+}
+
+@functions {
+    private static string ReservationStatusBadgeClass(string status)
+        => status switch
+        {
+            "Pending" => "bg-warning text-dark",
+            "Confirmed" => "bg-success",
+            "Cancelled" => "bg-danger",
+            "Expired" => "bg-dark",
+            _ => "bg-secondary"
+        };
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <p class="text-uppercase text-secondary fw-semibold mb-2">Passenger area</p>
+        <h1 class="h3 mb-0">My reservations</h1>
+    </div>
+    <a asp-controller="Flights" asp-action="Index" class="btn btn-primary">Find flights</a>
+</div>
+
+@if (TempData["Success"] is string success)
+{
+    <div class="alert alert-success">@success</div>
+}
+
+@if (!Model.Reservations.Any())
+{
+    <div class="alert alert-info">You do not have reservations yet.</div>
+}
+else
+{
+    <div class="card border-0 shadow-sm">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Flight</th>
+                        <th>Booked</th>
+                        <th>Passengers</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var reservation in Model.Reservations)
+                    {
+                        var flightNumber = Model.Flights.FirstOrDefault(x => x.Id == reservation.FlightId)?.FlightNumber ?? $"#{reservation.FlightId}";
+
+                        <tr>
+                            <td class="fw-semibold">@reservation.ReservationCode</td>
+                            <td>@flightNumber</td>
+                            <td>@reservation.BookingDate.ToLocalTime().ToString("dd MMM yyyy HH:mm")</td>
+                            <td>@reservation.PassengerCount</td>
+                            <td>@reservation.TotalPrice.ToString("0.00") @reservation.Currency</td>
+                            <td><span class="badge @ReservationStatusBadgeClass(reservation.Status)">@reservation.Status</span></td>
+                            <td class="text-end">
+                                <a asp-action="Details" asp-route-id="@reservation.Id" class="btn btn-sm btn-outline-primary">Details</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

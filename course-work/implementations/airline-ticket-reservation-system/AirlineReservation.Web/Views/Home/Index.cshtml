@@ -1,0 +1,61 @@
+@{
+    ViewData["Title"] = "Dashboard";
+    var isSignedIn = !string.IsNullOrWhiteSpace(Context.Session.GetString(SessionKeys.AuthToken));
+}
+
+<section class="page-hero rounded-4 p-4 p-lg-5 mb-4">
+    <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+            <p class="text-uppercase text-secondary fw-semibold mb-2">Coursework project</p>
+            <h1 class="display-5 fw-bold mb-3">Airline Ticket Reservation System</h1>
+            <p class="lead text-muted">
+                MVC client for searching flights, creating reservations with multiple passenger tickets,
+                and managing payments through a protected ASP.NET Core Web API.
+            </p>
+            <div class="d-flex gap-2">
+                @if (isSignedIn)
+                {
+                    <a asp-controller="Flights" asp-action="Index" class="btn btn-primary">Search flights</a>
+                    <a asp-controller="Reservations" asp-action="Index" class="btn btn-outline-primary">My reservations</a>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login" class="btn btn-primary">Login</a>
+                    <a asp-controller="Account" asp-action="Register" class="btn btn-outline-primary">Register</a>
+                }
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="status-panel rounded-4 p-4">
+                <h2 class="h5">Current implementation</h2>
+                <ul class="mb-0">
+                    <li>JWT login/register through the API</li>
+                    <li>Flight search with filtering, sorting, and calculated seats</li>
+                    <li>Reservations with multiple passenger tickets</li>
+                    <li>Payment attempts attached to reservations</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="row g-3">
+    <div class="col-md-4">
+        <div class="feature-card h-100">
+            <h2 class="h5">Flights</h2>
+            <p class="text-muted mb-0">Search by route, date, status, and price with available seats calculated by the backend.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="feature-card h-100">
+            <h2 class="h5">Reservations</h2>
+            <p class="text-muted mb-0">One reservation can contain multiple passenger tickets and recalculates totals automatically.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="feature-card h-100">
+            <h2 class="h5">Payments</h2>
+            <p class="text-muted mb-0">Multiple payment attempts per reservation are supported by the API and shown in MVC.</p>
+        </div>
+    </div>
+</section>

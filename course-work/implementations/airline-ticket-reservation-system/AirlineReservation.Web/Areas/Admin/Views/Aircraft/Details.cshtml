@@ -1,0 +1,30 @@
+@model AircraftResponse
+
+@{
+    ViewData["Title"] = "Aircraft Details";
+}
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+        <p class="text-uppercase text-secondary fw-semibold mb-2">Aircraft</p>
+        <h1 class="h3">@Model.RegistrationNumber</h1>
+        <dl class="row">
+            <dt class="col-sm-3">Model</dt><dd class="col-sm-9">@Model.Manufacturer @Model.Model</dd>
+            <dt class="col-sm-3">Seat capacity</dt><dd class="col-sm-9">@Model.SeatCapacity</dd>
+            <dt class="col-sm-3">Range</dt><dd class="col-sm-9">@Model.RangeKm km</dd>
+            <dt class="col-sm-3">Manufacture year</dt><dd class="col-sm-9">@Model.ManufactureYear</dd>
+            <dt class="col-sm-3">Last maintenance</dt><dd class="col-sm-9">@(Model.LastMaintenanceDate?.ToString("dd MMM yyyy") ?? "-")</dd>
+            <dt class="col-sm-3">Active</dt><dd class="col-sm-9">@(Model.IsActive ? "Yes" : "No")</dd>
+        </dl>
+        <div class="d-flex gap-2">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+            <a asp-action="Index" class="btn btn-outline-secondary">Back</a>
+            <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+                <button class="btn btn-outline-danger" onclick="return confirm('Delete this aircraft?')">Delete</button>
+            </form>
+            <form asp-action="ForceDelete" asp-route-id="@Model.Id" method="post">
+                <button class="btn btn-danger" onclick="return confirm('Force delete this aircraft, its flights, and all related reservations, tickets, and payments? This cannot be undone.')">Force delete</button>
+            </form>
+        </div>
+    </div>
+</div>

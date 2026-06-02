@@ -1,0 +1,12 @@
+@model AdminTicketFormViewModel
+
+@{
+    ViewData["Title"] = "Create Ticket";
+}
+
+<h1 class="h3 mb-3">Create ticket</h1>
+<partial name="_TicketForm" model="Model" />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

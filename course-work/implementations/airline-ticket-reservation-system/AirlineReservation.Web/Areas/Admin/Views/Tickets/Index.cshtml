@@ -1,0 +1,62 @@
+@model AdminTicketIndexViewModel
+
+@{
+    ViewData["Title"] = "Admin Tickets";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Tickets</h1>
+    <a asp-action="Create" class="btn btn-primary">Create ticket</a>
+</div>
+
+@if (TempData["Success"] is string success) { <div class="alert alert-success">@success</div> }
+@if (TempData["Error"] is string error) { <div class="alert alert-danger">@error</div> }
+
+<form method="get" class="card border-0 shadow-sm mb-3">
+    <div class="card-body row g-3 align-items-end">
+        <div class="col-md-3">
+            <label asp-for="ReservationId" class="form-label">Reservation</label>
+            <select asp-for="ReservationId" class="form-select">
+                <option value="">All reservations</option>
+                @foreach (var reservation in Model.Reservations)
+                {
+                    <option value="@reservation.Id">@reservation.ReservationCode</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-4"><label asp-for="PassengerLastName" class="form-label"></label><input asp-for="PassengerLastName" class="form-control" /></div>
+        <div class="col-md-3"><label asp-for="TicketStatus" class="form-label"></label><select asp-for="TicketStatus" class="form-select"><option value="">All</option><option>Issued</option><option>CheckedIn</option><option>Cancelled</option><option>Refunded</option></select></div>
+        <div class="col-md-2"><button class="btn btn-outline-primary w-100">Filter</button></div>
+    </div>
+</form>
+
+<div class="card border-0 shadow-sm">
+    <div class="table-responsive">
+        <table class="table align-middle mb-0">
+            <thead><tr><th>Passenger</th><th>Reservation</th><th>Document</th><th>Seat</th><th>Fare</th><th>Price</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+                @foreach (var ticket in Model.Results.Items)
+                {
+                    var reservationCode = Model.Reservations.FirstOrDefault(x => x.Id == ticket.ReservationId)?.ReservationCode ?? $"#{ticket.ReservationId}";
+
+                    <tr>
+                        <td>@ticket.PassengerFirstName @ticket.PassengerLastName</td>
+                        <td>@reservationCode</td>
+                        <td>@ticket.PassengerDocumentNumber</td>
+                        <td>@(ticket.SeatNumber ?? "-")</td>
+                        <td>@ticket.FareClass</td>
+                        <td>@ticket.Price.ToString("0.00") @ticket.Currency</td>
+                        <td>@ticket.TicketStatus</td>
+                        <td class="text-end">
+                            <a asp-action="Details" asp-route-id="@ticket.Id" class="btn btn-sm btn-outline-secondary">Details</a>
+                            <a asp-action="Edit" asp-route-id="@ticket.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                            <form asp-action="Delete" asp-route-id="@ticket.Id" method="post" class="d-inline">
+                                <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this ticket?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

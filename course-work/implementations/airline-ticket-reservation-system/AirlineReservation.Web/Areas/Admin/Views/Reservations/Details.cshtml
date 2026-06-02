@@ -1,0 +1,101 @@
+@model AdminReservationDetailsViewModel
+
+@{
+    ViewData["Title"] = "Reservation Details";
+}
+
+@if (TempData["Success"] is string success) { <div class="alert alert-success">@success</div> }
+@if (TempData["Error"] is string error) { <div class="alert alert-danger">@error</div> }
+
+<div class="row g-4">
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <p class="text-uppercase text-secondary fw-semibold mb-2">Reservation</p>
+                <h1 class="h3">@Model.Reservation.ReservationCode</h1>
+                <dl class="row mb-0">
+                    <dt class="col-5">Customer</dt><dd class="col-7">@Model.User?.FirstName @Model.User?.LastName</dd>
+                    <dt class="col-5">Email</dt><dd class="col-7">@Model.User?.Email</dd>
+                    <dt class="col-5">Flight</dt><dd class="col-7">@Model.Flight?.FlightNumber</dd>
+                    <dt class="col-5">Route</dt><dd class="col-7">@Model.DepartureAirport?.Code -> @Model.ArrivalAirport?.Code</dd>
+                    <dt class="col-5">Passengers</dt><dd class="col-7">@Model.Reservation.PassengerCount</dd>
+                    <dt class="col-5">Total</dt><dd class="col-7">@Model.Reservation.TotalPrice.ToString("0.00") @Model.Reservation.Currency</dd>
+                    <dt class="col-5">Status</dt><dd class="col-7">@Model.Reservation.Status</dd>
+                </dl>
+                <div class="d-flex gap-2 mt-3">
+                    <a asp-action="Edit" asp-route-id="@Model.Reservation.Id" class="btn btn-primary">Edit status</a>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Back</a>
+                    <form asp-action="Delete" asp-route-id="@Model.Reservation.Id" method="post">
+                        <button class="btn btn-outline-danger" onclick="return confirm('Delete this reservation?')">Delete</button>
+                    </form>
+                    <form asp-action="ForceDelete" asp-route-id="@Model.Reservation.Id" method="post">
+                        <button class="btn btn-danger" onclick="return confirm('Force delete this reservation and all related tickets and payments? This cannot be undone.')">Force delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h2 class="h5 mb-0">Tickets</h2>
+                    <a asp-area="Admin" asp-controller="Tickets" asp-action="Create" asp-route-reservationId="@Model.Reservation.Id" class="btn btn-sm btn-primary">Add ticket</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+                        <thead><tr><th>Passenger</th><th>Document</th><th>Seat</th><th>Fare</th><th>Price</th><th>Status</th><th></th></tr></thead>
+                        <tbody>
+                            @foreach (var ticket in Model.Tickets)
+                            {
+                                <tr>
+                                    <td>@ticket.PassengerFirstName @ticket.PassengerLastName</td>
+                                    <td>@ticket.PassengerDocumentNumber</td>
+                                    <td>@(ticket.SeatNumber ?? "-")</td>
+                                    <td>@ticket.FareClass</td>
+                                    <td>@ticket.Price.ToString("0.00") @ticket.Currency</td>
+                                    <td>@ticket.TicketStatus</td>
+                                    <td class="text-end">
+                                        <a asp-area="Admin" asp-controller="Tickets" asp-action="Details" asp-route-id="@ticket.Id" class="btn btn-sm btn-outline-secondary">Details</a>
+                                        <a asp-area="Admin" asp-controller="Tickets" asp-action="Edit" asp-route-id="@ticket.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h2 class="h5 mb-0">Payments</h2>
+                    <a asp-area="Admin" asp-controller="Payments" asp-action="Create" asp-route-reservationId="@Model.Reservation.Id" class="btn btn-sm btn-primary">Add payment</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+                        <thead><tr><th>Reference</th><th>Amount</th><th>Method</th><th>Status</th><th>Paid at</th><th></th></tr></thead>
+                        <tbody>
+                            @foreach (var payment in Model.Payments)
+                            {
+                                <tr>
+                                    <td>@(payment.TransactionReference ?? "-")</td>
+                                    <td>@payment.Amount.ToString("0.00") @payment.Currency</td>
+                                    <td>@payment.PaymentMethod</td>
+                                    <td>@payment.PaymentStatus</td>
+                                    <td>@(payment.PaidAt?.ToLocalTime().ToString("dd MMM yyyy HH:mm") ?? "-")</td>
+                                    <td class="text-end">
+                                        <a asp-area="Admin" asp-controller="Payments" asp-action="Details" asp-route-id="@payment.Id" class="btn btn-sm btn-outline-secondary">Details</a>
+                                        <a asp-area="Admin" asp-controller="Payments" asp-action="Edit" asp-route-id="@payment.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

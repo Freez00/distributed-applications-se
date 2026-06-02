@@ -1,0 +1,125 @@
+@model CreateReservationViewModel
+
+@{
+    ViewData["Title"] = "Create Reservation";
+}
+
+<div class="row g-4">
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm sticky-lg-top reservation-summary">
+            <div class="card-body">
+                <p class="text-uppercase text-secondary fw-semibold mb-2">Selected flight</p>
+                <h1 class="h4">@Model.Flight?.FlightNumber</h1>
+                <dl class="row mb-0">
+                    <dt class="col-6">Departure</dt>
+                    <dd class="col-6">@Model.Flight?.DepartureTime.ToLocalTime().ToString("dd MMM HH:mm")</dd>
+                    <dt class="col-6">Arrival</dt>
+                    <dd class="col-6">@Model.Flight?.ArrivalTime.ToLocalTime().ToString("dd MMM HH:mm")</dd>
+                    <dt class="col-6">Base price</dt>
+                    <dd class="col-6">@Model.Flight?.BasePrice.ToString("0.00") @Model.Flight?.Currency</dd>
+                    <dt class="col-6">Free seats</dt>
+                    <dd class="col-6">@Model.Flight?.AvailableSeats</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <form asp-action="Create" method="post" class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <input type="hidden" asp-for="FlightId" />
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <p class="text-uppercase text-secondary fw-semibold mb-2">Passengers</p>
+                <h2 class="h4 mb-3">Create reservation</h2>
+                <p class="text-muted">Choose how many passenger tickets should be included in this reservation. The backend supports up to 9 tickets per reservation.</p>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <label asp-for="PassengerCount" class="form-label"></label>
+                        <select asp-for="PassengerCount" class="form-select" id="passengerCount">
+                            @for (var count = 1; count <= CreateReservationViewModel.MaxPassengerCount; count++)
+                            {
+                                <option value="@count">@count passenger@(count == 1 ? "" : "s")</option>
+                            }
+                        </select>
+                        <span asp-validation-for="PassengerCount" class="text-danger"></span>
+                    </div>
+                </div>
+
+                @for (var i = 0; i < Model.Tickets.Count; i++)
+                {
+                    <fieldset class="passenger-card passenger-card-wrapper border rounded-3 p-3 mb-3" data-passenger-index="@i">
+                        <legend class="float-none w-auto px-2 h6">Passenger @(i + 1)</legend>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label asp-for="Tickets[i].PassengerFirstName" class="form-label"></label>
+                                <input asp-for="Tickets[i].PassengerFirstName" class="form-control" />
+                                <span asp-validation-for="Tickets[i].PassengerFirstName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Tickets[i].PassengerLastName" class="form-label"></label>
+                                <input asp-for="Tickets[i].PassengerLastName" class="form-control" />
+                                <span asp-validation-for="Tickets[i].PassengerLastName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-5">
+                                <label asp-for="Tickets[i].PassengerDocumentNumber" class="form-label"></label>
+                                <input asp-for="Tickets[i].PassengerDocumentNumber" class="form-control" />
+                                <span asp-validation-for="Tickets[i].PassengerDocumentNumber" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-3">
+                                <label asp-for="Tickets[i].PassengerType" class="form-label"></label>
+                                <select asp-for="Tickets[i].PassengerType" class="form-select">
+                                    <option>Adult</option>
+                                    <option>Child</option>
+                                    <option>Student</option>
+                                    <option>Infant</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label asp-for="Tickets[i].SeatNumber" class="form-label"></label>
+                                <input asp-for="Tickets[i].SeatNumber" class="form-control" placeholder="1A" />
+                                <span asp-validation-for="Tickets[i].SeatNumber" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-2">
+                                <label asp-for="Tickets[i].FareClass" class="form-label"></label>
+                                <select asp-for="Tickets[i].FareClass" class="form-select">
+                                    <option>Economy</option>
+                                    <option>PremiumEconomy</option>
+                                    <option>Business</option>
+                                    <option>First</option>
+                                </select>
+                            </div>
+                        </div>
+                    </fieldset>
+                }
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">Create reservation</button>
+                    <a asp-controller="Flights" asp-action="Index" class="btn btn-outline-secondary">Back to flights</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (() => {
+            const countSelector = document.getElementById('passengerCount');
+            const cards = [...document.querySelectorAll('.passenger-card-wrapper')];
+
+            const updateVisiblePassengers = () => {
+                const count = Number.parseInt(countSelector.value || '1', 10);
+                cards.forEach(card => {
+                    const index = Number.parseInt(card.dataset.passengerIndex || '0', 10);
+                    card.classList.toggle('d-none', index >= count);
+                });
+            };
+
+            countSelector.addEventListener('change', updateVisiblePassengers);
+            updateVisiblePassengers();
+        })();
+    </script>
+}

@@ -1,0 +1,31 @@
+@model AdminTicketDetailsViewModel
+
+@{
+    ViewData["Title"] = "Ticket Details";
+}
+
+@if (TempData["Success"] is string success) { <div class="alert alert-success">@success</div> }
+@if (TempData["Error"] is string error) { <div class="alert alert-danger">@error</div> }
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+        <p class="text-uppercase text-secondary fw-semibold mb-2">Ticket</p>
+        <h1 class="h3">@Model.Ticket.PassengerFirstName @Model.Ticket.PassengerLastName</h1>
+        <dl class="row">
+            <dt class="col-sm-3">Reservation</dt><dd class="col-sm-9"><a asp-area="Admin" asp-controller="Reservations" asp-action="Details" asp-route-id="@Model.Ticket.ReservationId">@Model.Reservation?.ReservationCode</a></dd>
+            <dt class="col-sm-3">Document</dt><dd class="col-sm-9">@Model.Ticket.PassengerDocumentNumber</dd>
+            <dt class="col-sm-3">Passenger type</dt><dd class="col-sm-9">@Model.Ticket.PassengerType</dd>
+            <dt class="col-sm-3">Seat</dt><dd class="col-sm-9">@(Model.Ticket.SeatNumber ?? "-")</dd>
+            <dt class="col-sm-3">Fare class</dt><dd class="col-sm-9">@Model.Ticket.FareClass</dd>
+            <dt class="col-sm-3">Price</dt><dd class="col-sm-9">@Model.Ticket.Price.ToString("0.00") @Model.Ticket.Currency</dd>
+            <dt class="col-sm-3">Status</dt><dd class="col-sm-9">@Model.Ticket.TicketStatus</dd>
+        </dl>
+        <div class="d-flex gap-2">
+            <a asp-action="Edit" asp-route-id="@Model.Ticket.Id" class="btn btn-primary">Edit</a>
+            <a asp-action="Index" class="btn btn-outline-secondary">Back</a>
+            <form asp-action="Delete" asp-route-id="@Model.Ticket.Id" method="post">
+                <button class="btn btn-outline-danger" onclick="return confirm('Delete this ticket?')">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>

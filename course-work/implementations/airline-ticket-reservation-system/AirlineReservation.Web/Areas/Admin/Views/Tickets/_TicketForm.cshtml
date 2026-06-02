@@ -1,0 +1,62 @@
+@model AdminTicketFormViewModel
+
+<form method="post" class="card border-0 shadow-sm">
+    <div class="card-body">
+        <input type="hidden" asp-for="Id" />
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label asp-for="Ticket.ReservationId" class="form-label">Reservation</label>
+                <select asp-for="Ticket.ReservationId" class="form-select">
+                    <option value="">Select reservation</option>
+                    @foreach (var reservation in Model.Reservations)
+                    {
+                        <option value="@reservation.Id">@reservation.ReservationCode - @reservation.TotalPrice.ToString("0.00") @reservation.Currency (@reservation.Status)</option>
+                    }
+                </select>
+                <span asp-validation-for="Ticket.ReservationId" class="text-danger"></span>
+            </div>
+            <div class="col-md-4"><label asp-for="Ticket.PassengerFirstName" class="form-label"></label><input asp-for="Ticket.PassengerFirstName" class="form-control" /><span asp-validation-for="Ticket.PassengerFirstName" class="text-danger"></span></div>
+            <div class="col-md-4"><label asp-for="Ticket.PassengerLastName" class="form-label"></label><input asp-for="Ticket.PassengerLastName" class="form-control" /><span asp-validation-for="Ticket.PassengerLastName" class="text-danger"></span></div>
+            <div class="col-md-4"><label asp-for="Ticket.PassengerDocumentNumber" class="form-label"></label><input asp-for="Ticket.PassengerDocumentNumber" class="form-control" /><span asp-validation-for="Ticket.PassengerDocumentNumber" class="text-danger"></span></div>
+            <div class="col-md-2">
+                <label asp-for="Ticket.PassengerType" class="form-label"></label>
+                <select asp-for="Ticket.PassengerType" class="form-select">
+                    <option>Adult</option>
+                    <option>Child</option>
+                    <option>Infant</option>
+                    <option>Student</option>
+                </select>
+                <span asp-validation-for="Ticket.PassengerType" class="text-danger"></span>
+            </div>
+            <div class="col-md-2"><label asp-for="Ticket.SeatNumber" class="form-label"></label><input asp-for="Ticket.SeatNumber" class="form-control" /><span asp-validation-for="Ticket.SeatNumber" class="text-danger"></span></div>
+            <div class="col-md-2">
+                <label asp-for="Ticket.FareClass" class="form-label"></label>
+                <select asp-for="Ticket.FareClass" class="form-select">
+                    <option>Economy</option>
+                    <option>PremiumEconomy</option>
+                    <option>Business</option>
+                    <option>First</option>
+                </select>
+                <span asp-validation-for="Ticket.FareClass" class="text-danger"></span>
+            </div>
+            <div class="col-md-2">
+                <label asp-for="Ticket.TicketStatus" class="form-label"></label>
+                <select asp-for="Ticket.TicketStatus" class="form-select">
+                    <option>Issued</option>
+                    <option>CheckedIn</option>
+                    <option>Cancelled</option>
+                    <option>Refunded</option>
+                </select>
+                <span asp-validation-for="Ticket.TicketStatus" class="text-danger"></span>
+            </div>
+            <div class="col-md-3"><label asp-for="Ticket.Price" class="form-label"></label><input asp-for="Ticket.Price" class="form-control" /><span asp-validation-for="Ticket.Price" class="text-danger"></span></div>
+            <div class="col-md-2"><label asp-for="Ticket.Currency" class="form-label"></label><input asp-for="Ticket.Currency" class="form-control" /><span asp-validation-for="Ticket.Currency" class="text-danger"></span></div>
+            <div class="col-md-3"><label asp-for="Ticket.IssuedAt" class="form-label"></label><input asp-for="Ticket.IssuedAt" type="datetime-local" class="form-control" /><span asp-validation-for="Ticket.IssuedAt" class="text-danger"></span></div>
+        </div>
+        <div class="mt-4">
+            <button class="btn btn-primary">Save</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+    </div>
+</form>

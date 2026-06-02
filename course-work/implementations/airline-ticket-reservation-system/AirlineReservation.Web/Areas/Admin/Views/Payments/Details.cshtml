@@ -1,0 +1,30 @@
+@model AdminPaymentDetailsViewModel
+
+@{
+    ViewData["Title"] = "Payment Details";
+}
+
+@if (TempData["Success"] is string success) { <div class="alert alert-success">@success</div> }
+@if (TempData["Error"] is string error) { <div class="alert alert-danger">@error</div> }
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+        <p class="text-uppercase text-secondary fw-semibold mb-2">Payment</p>
+        <h1 class="h3">@Model.Payment.Amount.ToString("0.00") @Model.Payment.Currency</h1>
+        <dl class="row">
+            <dt class="col-sm-3">Reservation</dt><dd class="col-sm-9"><a asp-area="Admin" asp-controller="Reservations" asp-action="Details" asp-route-id="@Model.Payment.ReservationId">@Model.Reservation?.ReservationCode</a></dd>
+            <dt class="col-sm-3">Method</dt><dd class="col-sm-9">@Model.Payment.PaymentMethod</dd>
+            <dt class="col-sm-3">Status</dt><dd class="col-sm-9">@Model.Payment.PaymentStatus</dd>
+            <dt class="col-sm-3">Reference</dt><dd class="col-sm-9">@(Model.Payment.TransactionReference ?? "-")</dd>
+            <dt class="col-sm-3">Paid at</dt><dd class="col-sm-9">@(Model.Payment.PaidAt?.ToLocalTime().ToString("dd MMM yyyy HH:mm") ?? "-")</dd>
+            <dt class="col-sm-3">Created</dt><dd class="col-sm-9">@Model.Payment.CreatedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm")</dd>
+        </dl>
+        <div class="d-flex gap-2">
+            <a asp-action="Edit" asp-route-id="@Model.Payment.Id" class="btn btn-primary">Edit</a>
+            <a asp-action="Index" class="btn btn-outline-secondary">Back</a>
+            <form asp-action="Delete" asp-route-id="@Model.Payment.Id" method="post">
+                <button class="btn btn-outline-danger" onclick="return confirm('Delete this payment?')">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,82 @@
+@model AdminReservationIndexViewModel
+
+@{
+    ViewData["Title"] = "Admin Reservations";
+}
+
+@functions {
+    private static string ReservationStatusBadgeClass(string status)
+        => status switch
+        {
+            "Pending" => "bg-warning text-dark",
+            "Confirmed" => "bg-success",
+            "Cancelled" => "bg-danger",
+            "Expired" => "bg-dark",
+            _ => "bg-secondary"
+        };
+}
+
+<h1 class="h3 mb-3">Reservations</h1>
+
+@if (TempData["Success"] is string success) { <div class="alert alert-success">@success</div> }
+@if (TempData["Error"] is string error) { <div class="alert alert-danger">@error</div> }
+
+<form method="get" class="card border-0 shadow-sm mb-3">
+    <div class="card-body row g-3 align-items-end">
+        <div class="col-md-3"><label asp-for="ReservationCode" class="form-label"></label><input asp-for="ReservationCode" class="form-control" /></div>
+        <div class="col-md-3">
+            <label asp-for="UserId" class="form-label">Customer</label>
+            <select asp-for="UserId" class="form-select">
+                <option value="">All customers</option>
+                @foreach (var user in Model.Users)
+                {
+                    <option value="@user.Id">@user.Email</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label asp-for="FlightId" class="form-label">Flight</label>
+            <select asp-for="FlightId" class="form-select">
+                <option value="">All flights</option>
+                @foreach (var flight in Model.Flights)
+                {
+                    <option value="@flight.Id">@flight.FlightNumber</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3"><label asp-for="Status" class="form-label"></label><select asp-for="Status" class="form-select"><option value="">All</option><option>Pending</option><option>Confirmed</option><option>Cancelled</option><option>Expired</option></select></div>
+        <div class="col-md-1"><button class="btn btn-outline-primary w-100">Filter</button></div>
+    </div>
+</form>
+
+<div class="card border-0 shadow-sm">
+    <div class="table-responsive">
+        <table class="table align-middle mb-0">
+            <thead><tr><th>Code</th><th>User</th><th>Flight</th><th>Booked</th><th>Passengers</th><th>Total</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+                @foreach (var reservation in Model.Results.Items)
+                {
+                    var userEmail = Model.Users.FirstOrDefault(x => x.Id == reservation.UserId)?.Email ?? $"#{reservation.UserId}";
+                    var flightNumber = Model.Flights.FirstOrDefault(x => x.Id == reservation.FlightId)?.FlightNumber ?? $"#{reservation.FlightId}";
+
+                    <tr>
+                        <td class="fw-semibold">@reservation.ReservationCode</td>
+                        <td>@userEmail</td>
+                        <td>@flightNumber</td>
+                        <td>@reservation.BookingDate.ToLocalTime().ToString("dd MMM yyyy HH:mm")</td>
+                        <td>@reservation.PassengerCount</td>
+                        <td>@reservation.TotalPrice.ToString("0.00") @reservation.Currency</td>
+                        <td><span class="badge @ReservationStatusBadgeClass(reservation.Status)">@reservation.Status</span></td>
+                        <td class="text-end">
+                            <a asp-action="Details" asp-route-id="@reservation.Id" class="btn btn-sm btn-outline-secondary">Details</a>
+                            <a asp-action="Edit" asp-route-id="@reservation.Id" class="btn btn-sm btn-outline-primary">Status</a>
+                            <form asp-action="Delete" asp-route-id="@reservation.Id" method="post" class="d-inline">
+                                <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this reservation?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

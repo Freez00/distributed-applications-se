@@ -1,0 +1,96 @@
+2026-06-01 22:41:30.902 +03:00 [ERR] Hosting failed to start
+System.IO.IOException: Failed to bind to address http://127.0.0.1:5088: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Only one usage of each socket address (protocol/network address/port) is normally permitted.
+ ---> System.Net.Sockets.SocketException (10048): Only one usage of each socket address (protocol/network address/port) is normally permitted.
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, Boolean disconnectOnFailure, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__14_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+2026-06-01 22:42:55.624 +03:00 [ERR] Hosting failed to start
+System.IO.IOException: Failed to bind to address http://127.0.0.1:5088: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Only one usage of each socket address (protocol/network address/port) is normally permitted.
+ ---> System.Net.Sockets.SocketException (10048): Only one usage of each socket address (protocol/network address/port) is normally permitted.
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, Boolean disconnectOnFailure, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__14_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+2026-06-01 23:01:54.488 +03:00 [INF] Now listening on: https://localhost:7186
+2026-06-01 23:01:54.732 +03:00 [INF] Now listening on: http://localhost:5235
+2026-06-01 23:01:54.871 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-01 23:01:54.873 +03:00 [INF] Hosting environment: Development
+2026-06-01 23:01:54.875 +03:00 [INF] Content root path: C:\Users\Freez\Documents\Codex\2026-05-24\can-u-work-without-a-project\course-work\implementations\airline-ticket-reservation-system\AirlineReservation.Api
+2026-06-01 23:23:47.250 +03:00 [INF] Now listening on: https://localhost:7186
+2026-06-01 23:23:47.332 +03:00 [INF] Now listening on: http://localhost:5235
+2026-06-01 23:23:47.491 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-01 23:23:47.493 +03:00 [INF] Hosting environment: Development
+2026-06-01 23:23:47.495 +03:00 [INF] Content root path: C:\Users\Freez\Documents\Codex\2026-05-24\can-u-work-without-a-project\course-work\implementations\airline-ticket-reservation-system\AirlineReservation.Api
+2026-06-01 23:32:22.452 +03:00 [INF] Now listening on: http://localhost:5088
+2026-06-01 23:32:22.486 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-01 23:32:22.488 +03:00 [INF] Hosting environment: Development
+2026-06-01 23:32:22.489 +03:00 [INF] Content root path: C:\Users\Freez\Documents\Codex\2026-05-24\can-u-work-without-a-project\course-work\implementations\airline-ticket-reservation-system\AirlineReservation.Api
+2026-06-01 23:32:22.509 +03:00 [WRN] Failed to determine the https port for redirect.
+2026-06-01 23:33:16.505 +03:00 [INF] Now listening on: http://localhost:5088
+2026-06-01 23:33:16.541 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-01 23:33:16.543 +03:00 [INF] Hosting environment: Development
+2026-06-01 23:33:16.544 +03:00 [INF] Content root path: C:\Users\Freez\Documents\Codex\2026-05-24\can-u-work-without-a-project\course-work\implementations\airline-ticket-reservation-system\AirlineReservation.Api
+2026-06-01 23:33:16.897 +03:00 [WRN] Failed to determine the https port for redirect.
+2026-06-01 23:33:18.318 +03:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-06-01 23:33:18.501 +03:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-06-01 23:33:18.577 +03:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-06-01 23:43:05.794 +03:00 [INF] Now listening on: http://localhost:5235
+2026-06-01 23:43:05.841 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-01 23:43:05.843 +03:00 [INF] Hosting environment: Development
+2026-06-01 23:43:05.844 +03:00 [INF] Content root path: C:\Users\Freez\Documents\Codex\2026-05-24\can-u-work-without-a-project\course-work\implementations\airline-ticket-reservation-system\AirlineReservation.Api
+2026-06-01 23:43:06.296 +03:00 [WRN] Failed to determine the https port for redirect.
+2026-06-01 23:44:25.364 +03:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-06-01 23:44:25.635 +03:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-06-01 23:44:25.851 +03:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-06-01 23:52:51.909 +03:00 [INF] Now listening on: https://localhost:7186
+2026-06-01 23:52:51.997 +03:00 [INF] Now listening on: http://localhost:5235
+2026-06-01 23:52:52.290 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-01 23:52:52.291 +03:00 [INF] Hosting environment: Development
+2026-06-01 23:52:52.294 +03:00 [INF] Content root path: C:\Users\Freez\Documents\Codex\2026-05-24\can-u-work-without-a-project\course-work\implementations\airline-ticket-reservation-system\AirlineReservation.Api
+2026-06-01 23:54:49.062 +03:00 [INF] Now listening on: https://localhost:7186
+2026-06-01 23:54:49.126 +03:00 [INF] Now listening on: http://localhost:5235
+2026-06-01 23:54:49.243 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-01 23:54:49.244 +03:00 [INF] Hosting environment: Development
+2026-06-01 23:54:49.245 +03:00 [INF] Content root path: C:\Users\Freez\Documents\Codex\2026-05-24\can-u-work-without-a-project\course-work\implementations\airline-ticket-reservation-system\AirlineReservation.Api
+2026-06-01 23:59:55.447 +03:00 [INF] Now listening on: https://localhost:7186
+2026-06-01 23:59:55.531 +03:00 [INF] Now listening on: http://localhost:5235
+2026-06-01 23:59:55.694 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-01 23:59:55.697 +03:00 [INF] Hosting environment: Development
+2026-06-01 23:59:55.698 +03:00 [INF] Content root path: C:\Users\Freez\Documents\Codex\2026-05-24\can-u-work-without-a-project\course-work\implementations\airline-ticket-reservation-system\AirlineReservation.Api
