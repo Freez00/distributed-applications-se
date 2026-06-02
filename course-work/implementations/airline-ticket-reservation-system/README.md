@@ -127,12 +127,6 @@ Admin features:
 - CRUD for Tickets
 - CRUD for Payments
 
-Presentation checklist:
-
-```text
-DEMO-CHECKLIST.md
-```
-
 ## Coursework Criteria Coverage
 
 - 3+ related database tables: users, airports, aircraft, flights, reservations, tickets, payments
